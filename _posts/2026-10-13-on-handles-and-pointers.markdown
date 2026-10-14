@@ -1,6 +1,6 @@
 # On handles and pointers
 
-I've recently looked into using handles instead of pointers in my programming based on ideas from the article [Handles are the better pointers](https://floooh.github.io/2018/06/17/handles-vs-pointers.html).[1]
+I've recently looked into using handles instead of pointers in my programming[1](#footnote1) based on ideas from the article [Handles are the better pointers](https://floooh.github.io/2018/06/17/handles-vs-pointers.html).
 
 My reason for doing this is that I'm writing a garbage collector for a small script language I'm creating. The current code is based on [polymorphic memory resources](https://en.cppreference.com/cpp/header/memory_resource) and uses `std::allocate_shared` to create a shared_ptr that I save into a vector.
 This works well, the shared_ptr is a bit of a hack since I expose `T*` outside the GC but `std::allocate_shared` is too convenient for using pmr for me to care. Pmr also makes memory tracking easy, useful for triggering GC, and monotonic buffer resource and unsynchronized pool resource makes allocations amortized O(1).
@@ -170,5 +170,5 @@ void releaseEntity(EntityHandle h) {
 }
 ```
 
-[1]: If you've used DDD value objects for backend programming, and its us of handles you've done a variety of this. You just used it for handling database layout instead of raw memory layout.
+<a id="footnote1"></a> [1]: If you've used DDD value objects for backend programming, and its us of handles you've done a variety of this. You just used it for handling database layout instead of raw memory layout.
 
