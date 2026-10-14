@@ -140,7 +140,7 @@ int currentHp(EntityHandle h) {
 // Releasing an invalid entity is safe so we just
 // log it and return.
 void releaseEntity(EntityHandle h) {
-  lf (h.generation == 0) {
+  if (h.generation == 0) {
     log("Error. Entity of invalid generation released");
     return;
   }
