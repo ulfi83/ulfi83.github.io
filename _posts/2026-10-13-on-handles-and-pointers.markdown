@@ -53,6 +53,8 @@ We can decide if we want our arrays dense or sparse. Many entities don't need al
 
 Specialized memory allocators. While handles aren't a requirement here, I use PMR with normal STL operations as mentioned above, it's more obvious with handles that you can use something like a bump allocator. It's also easier to write it if you only have to worry about a single type.
 
+Multithreding: if we have *N* cores one core can work on `array_size / N` items. If we have multiple arrays, each core can work on a different array.
+
 ## How to write code using handles instead of pointers
 We'll make a number of simplifications while writing our pseudocode. However that only proves the benefit of handles since you decide which simplification or extra complexity is worth it.
 
