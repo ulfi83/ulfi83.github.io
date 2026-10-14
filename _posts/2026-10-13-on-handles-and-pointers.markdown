@@ -40,7 +40,8 @@ constexpr Handle operator""_handle(const char* text, std::size_t length)
 {
   return sha512(text, length);
 }
-auto h = gh.acquire("GitHub access token"_handle); auto h = db.lookup("Database table"_handle);
+auto h = gh.acquire("GitHub access token"_handle);
+auto h = db.lookup("Database table"_handle);
 ```
 
 Type specification. If your entities are similar but different (think classic OOP inheritance) you can use the extra unused bits in the handle to differentiate the entities. A simple `switch` statement can be used to direct the handle to the correct type array.
@@ -65,16 +66,18 @@ I'm also making the common mistake of using game development for my example. Yes
 ```cpp
 // Hot data used in regularly run loops
 struct MyEntityPosition {
-	float x, y;
-	float dx, dy;
+  float x, y;
+  float dx, dy;
 };
 
 // Cold data that's looked up occasionally
 struct MyEntityColdData {
-	int current_hp;
-	int max_hp;
-	string name;
-	map<string, any> custom_properties; // just some cold data that is expensive to reallocate
+  int current_hp;
+  int max_hp;
+  string name;
+  // just some more cold test data
+  // that is expensive to reallocate
+  map<string, any> custom_properties;
 };
 
 // Two different arrays for two different types
@@ -85,8 +88,8 @@ static vector<MyEntityColdData> gs_EntitiesData;
 // Handle to our entity. This could be two uint16_t
 // if we don't need more than 65535 entities.
 struct EntityHandle {
-	uint32_t index;
-	uint32_t generation = 0; // 0 == invalid generation
+  uint32_t index;
+  uint32_t generation = 0; // 0 == invalid generation
 };
 
 // Bookkeeping arrays
@@ -145,11 +148,13 @@ void releaseEntity(EntityHandle h) {
     return;
   }
   if (h.index >= gs_EntityData.size()) {
-    log("Error handle (%d) out-of-bounds (%d)", h.index, gs_EntityData.size());
+    log("Error handle (%d) out-of-bounds (%d)", h.index,
+    gs_EntityData.size());
     Return;
   }
   if (h.generation != gs_Generations[h.index]) {
-    log("Error.Entity of generation %d released. Current generation %d", h.generation, gs_Generations[h.index]);
+    log("Error.Entity of generation %d released. Current generation %d",
+    h.generation, gs_Generations[h.index]);
     return;
   }
 
