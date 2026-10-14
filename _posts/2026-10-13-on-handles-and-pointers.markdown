@@ -150,7 +150,7 @@ void releaseEntity(EntityHandle h) {
   if (h.index >= gs_EntityData.size()) {
     log("Error handle (%d) out-of-bounds (%d)", h.index,
     gs_EntityData.size());
-    Return;
+    return;
   }
   if (h.generation != gs_Generations[h.index]) {
     log("Error.Entity of generation %d released. Current generation %d",
